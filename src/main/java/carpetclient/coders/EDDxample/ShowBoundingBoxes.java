@@ -9,7 +9,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.structure.StructureBox;
 import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -147,7 +146,7 @@ public class ShowBoundingBoxes {
         NbtCompound nbt = null;
         try {
             nbt = data.readNbtCompound();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return;
         }
@@ -175,7 +174,7 @@ public class ShowBoundingBoxes {
         NbtCompound nbt = null;
         try {
             nbt = data.readNbtCompound();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return;
         }
@@ -194,7 +193,7 @@ public class ShowBoundingBoxes {
             NbtCompound nbt = null;
             try {
                 nbt = data.readNbtCompound();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 return;
             }

@@ -1,7 +1,6 @@
 package carpetclient.coders.EDDxample;
 
 import java.awt.Color;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -168,7 +167,7 @@ public class VillageMarker {
         NbtCompound nbt = null;
         try {
             nbt = data.readNbtCompound();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return;
         }
@@ -193,7 +192,7 @@ public class VillageMarker {
             NbtCompound villageTag;
             try {
                 villageTag = data.readNbtCompound();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 return;
             }
