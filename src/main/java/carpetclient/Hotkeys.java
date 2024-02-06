@@ -28,18 +28,18 @@ public class Hotkeys {
     public static KeyBinding randomtickChunkUpdates = new KeyBinding("Randomtick display updates", Keyboard.KEY_U, "Carpet Client");
 
     public static void init() {
-		KeyBindingEvents.REGISTER_KEYBINDS.register(registry -> {
-//			registry.register(toggleMainMenu)
-			registry.register(toggleSnapAim);
-			registry.register(toggleSnapAimKeyLocker);
-			registry.register(toggleBoundingBoxMarkers);
-			registry.register(toggleVillageMarkers);
-//        	registry.register(toggleRBP);
-			registry.register(toggleBlockFlip);
-			registry.register(toggleBlockFacing);
-			registry.register(chunkDebug);
-			registry.register(randomtickChunkUpdates);
-		});
+        KeyBindingEvents.REGISTER_KEYBINDS.register(registry -> {
+//            registry.register(toggleMainMenu)
+            registry.register(toggleSnapAim);
+            registry.register(toggleSnapAimKeyLocker);
+            registry.register(toggleBoundingBoxMarkers);
+            registry.register(toggleVillageMarkers);
+//            registry.register(toggleRBP);
+            registry.register(toggleBlockFlip);
+            registry.register(toggleBlockFacing);
+            registry.register(chunkDebug);
+            registry.register(randomtickChunkUpdates);
+        });
     }
 
     public static void onTick(Minecraft minecraft) {
