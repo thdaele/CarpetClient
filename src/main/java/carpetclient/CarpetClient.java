@@ -18,8 +18,8 @@ import net.minecraft.network.PacketByteBuf;
 
 public class CarpetClient implements ClientModInitializer {
 
-    private boolean gameRunnin = false;
-    private boolean loggedOut = false;
+    private static boolean gameRunnin = false;
+    private static boolean loggedOut = false;
 
     @Override
     public void initClient() {
@@ -48,15 +48,13 @@ public class CarpetClient implements ClientModInitializer {
         }
     }
 
-    @Override
-    public void onPostRenderEntities(float partialTicks) {
+    public static void onPostRenderEntities(float partialTicks) {
         if (gameRunnin) {
             MainRender.mainRender(partialTicks);
         }
     }
 
-    @Override
-    public void onPostRender(float partialTicks) {
+    public static void onPostRender(float partialTicks) {
         if (gameRunnin) {
             try {
                 PistonHelper.draw(partialTicks);
@@ -67,26 +65,19 @@ public class CarpetClient implements ClientModInitializer {
         }
     }
 
-    @Override
-    public void onPreRenderHUD(int screenWidth, int screenHeight) {
-    }
-
-    @Override
-    public void onPostRenderHUD(int screenWidth, int screenHeight) {
+    public static void onPostRenderHUD(int screenWidth, int screenHeight) {
         if (GuiChunkGrid.instance.getMinimapType() != 0) {
             GuiChunkGrid.instance.renderMinimap(screenWidth, screenHeight);
         }
     }
 
-    @Override
-    public void onViewportResized(Window resolution, int displayWidth, int displayHeight) {
+    public static void onViewportResized(Window resolution, int displayWidth, int displayHeight) {
         if (GuiChunkGrid.instance.getMinimapType() != 0) {
             GuiChunkGrid.instance.getController().updateMinimap();
         }
     }
 
-    @Override
-    public void onFullScreenToggled(boolean fullScreen) {
+    public static void onFullScreenToggled(boolean fullScreen) {
         if (GuiChunkGrid.instance.getMinimapType() != 0) {
             GuiChunkGrid.instance.getController().updateMinimap();
         }

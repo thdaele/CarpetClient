@@ -1,5 +1,6 @@
 package carpetclient.mixins;
 
+import carpetclient.CarpetClient;
 import carpetclient.Config;
 import carpetclient.mixinInterface.AMixinEntityRenderer;
 import carpetclient.mixinInterface.AMixinMinecraft;
@@ -14,8 +15,10 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameRenderer.class)
 public abstract class GameRendererMixin implements AMixinEntityRenderer {
@@ -31,6 +34,11 @@ public abstract class GameRendererMixin implements AMixinEntityRenderer {
     @Redirect(method = "render(IFJ)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/living/player/LocalClientPlayerEntity;isSpectator()Z"))
     private boolean fixSpectator(LocalClientPlayerEntity player) {
         return player.isSpectator() || (Config.creativeModeNoClip.getValue() && player.isCreative());
+    }
+
+    @Inject(method = "render(FJ)V", at = @At("TAIL"))
+    private void onPostRender(float partialTicks, long startTime, CallbackInfo ci) {
+        CarpetClient.onPostRender(partialTicks);
     }
 
     /**

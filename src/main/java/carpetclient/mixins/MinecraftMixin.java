@@ -1,5 +1,6 @@
 package carpetclient.mixins;
 
+import carpetclient.CarpetClient;
 import carpetclient.Config;
 import carpetclient.bugfix.PistonFix;
 import carpetclient.mixinInterface.AMixinMinecraft;
@@ -9,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.TickTimer;
 import net.minecraft.client.entity.living.player.LocalClientPlayerEntity;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.render.Window;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.util.crash.CrashException;
@@ -46,6 +48,12 @@ public abstract class MinecraftMixin implements IMinecraft, AMixinMinecraft {
     public Screen screen;
     @Shadow @Nullable
     private IntegratedServer server;
+    @Shadow
+    private int width;
+    @Shadow
+    private int height;
+    @Shadow
+    private boolean fullscreen;
 
     // private float renderPartialTicksPausedWorld;
     @Unique
@@ -127,5 +135,15 @@ public abstract class MinecraftMixin implements IMinecraft, AMixinMinecraft {
         } else {
             return 200L;
         }
+    }
+
+    @Inject(method = "onResolutionChanged()V", at = @At("TAIL"))
+    private void onResolutionChanged(CallbackInfo ci) {
+        CarpetClient.onViewportResized(new Window((Minecraft) (Object) this), this.width, this.height);
+    }
+
+    @Inject(method = "toggleFullscreen", at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lnet/minecraft/client/Minecraft;updateDisplay()V"))
+    private void onFullscreenToggled(CallbackInfo ci) {
+        CarpetClient.onFullScreenToggled(this.fullscreen);
     }
 }

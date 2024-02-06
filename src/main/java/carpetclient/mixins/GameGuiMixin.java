@@ -1,5 +1,6 @@
 package carpetclient.mixins;
 
+import carpetclient.CarpetClient;
 import carpetclient.Config;
 import net.minecraft.client.gui.GameGui;
 import net.minecraft.client.render.Window;
@@ -9,11 +10,18 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.llamalad7.mixinextras.sugar.Local;
+
 /**
  * Removes scoreboard on the right, from nessie.
  */
 @Mixin(GameGui.class)
 public class GameGuiMixin {
+    @Inject(method = "render", at = @At("TAIL"))
+    private void postRender(float partialTicks, CallbackInfo ci, @Local Window window) {
+        CarpetClient.onPostRenderHUD(window.getWidth(), window.getHeight());
+    }
+
     @Inject(method = "renderScoreboardObjective", at = @At("HEAD"), cancellable = true)
     private void toggleScoreboard(ScoreboardObjective objective, Window scaledRes, CallbackInfo ci) {
         if (Config.isScoreboardHidden.getValue()) {
