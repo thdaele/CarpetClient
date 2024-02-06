@@ -173,7 +173,7 @@ public class CarpetRules {
         NbtCompound nbt;
         try {
             nbt = data.readNbtCompound();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return;
         }
