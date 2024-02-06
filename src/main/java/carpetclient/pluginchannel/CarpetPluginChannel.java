@@ -6,11 +6,8 @@ import carpetclient.coders.zerox53ee71ebe11e.Chunkdata;
 import carpetclient.bugfix.PistonFix;
 import carpetclient.random.RandomtickDisplay;
 import carpetclient.util.CustomCrafting;
-import com.google.common.collect.ImmutableList;
-import com.mumfrey.liteloader.core.ClientPluginChannels;
-import com.mumfrey.liteloader.core.PluginChannels;
-import com.mumfrey.liteloader.core.PluginChannels.ChannelPolicy;
 import net.minecraft.network.PacketByteBuf;
+import net.ornithemc.osl.networking.api.client.ClientPlayNetworking;
 import carpetclient.coders.EDDxample.ShowBoundingBoxes;
 import carpetclient.coders.EDDxample.VillageMarker;
 import carpetclient.rules.CarpetRules;
@@ -21,7 +18,7 @@ Plugin channel class to implement a client server communication between carpet c
  */
 public class CarpetPluginChannel {
     public static final String CARPET_CHANNEL_NAME = "carpet:client";
-    public static final ImmutableList CARPET_PLUGIN_CHANNEL = ImmutableList.of(CARPET_CHANNEL_NAME);
+//    public static final ImmutableList CARPET_PLUGIN_CHANNEL = ImmutableList.of(CARPET_CHANNEL_NAME);
 
     public static final int GUI_ALL_DATA = 0;
     public static final int RULE_REQUEST = 1;
@@ -33,17 +30,14 @@ public class CarpetPluginChannel {
     public static final int RANDOMTICK_DISPLAY = 7;
     public static final int CUSTOM_RECIPES = 8;
 
-    /**
-     * Packate receiver method to handle incoming messages.
-     *
-     * @param channel incoming channel or packet name.
-     * @param data    incoming data from server.
-     */
-    public static void packatReceiver(String channel, PacketByteBuf data) {
-        PacketByteBuf buffer = PacketSplitter.receive(CARPET_CHANNEL_NAME, data);
-        if(buffer != null) {
-            handleData(buffer);
-        }
+    public static void init() {
+        ClientPlayNetworking.registerListener(CARPET_CHANNEL_NAME, (minecraft, handler, data) -> {
+            data = PacketSplitter.receive(CARPET_CHANNEL_NAME, data);
+            if (data != null) {
+                handleData(data);
+            }
+            return true;
+        });
     }
 
     /**
@@ -89,6 +83,6 @@ public class CarpetPluginChannel {
      * @param data The data that is being sent to the server.
      */
     public static void packatSender(PacketByteBuf data) {
-        PacketSplitter.send(CARPET_CHANNEL_NAME, data, ChannelPolicy.DISPATCH_IF_REGISTERED);
+        PacketSplitter.send(CARPET_CHANNEL_NAME, data);
     }
 }

@@ -5,12 +5,11 @@
 
 package carpetclient.coders.skyrising;
 
-import com.mumfrey.liteloader.core.ClientPluginChannels;
-import com.mumfrey.liteloader.core.PluginChannels;
 import io.netty.buffer.Unpooled;
 import java.util.HashMap;
 import java.util.Map;
 import net.minecraft.network.PacketByteBuf;
+import net.ornithemc.osl.networking.api.client.ClientPlayNetworking;
 
 public class PacketSplitter {
     public static final int MAX_TOTAL_PER_PACKET = 32767;
@@ -19,7 +18,7 @@ public class PacketSplitter {
 
     private static final Map<String, ReadingSession> readingSessions = new HashMap<>();
 
-    public static boolean send(String channel, PacketByteBuf packet, PluginChannels.ChannelPolicy policy) {
+    public static boolean send(String channel, PacketByteBuf packet) {
         int len = packet.writerIndex();
         packet.resetReaderIndex();
         for (int offset = 0; offset < len; offset += MAX_PAYLOAD_PER_PACKET) {
@@ -28,10 +27,7 @@ public class PacketSplitter {
             buf.resetWriterIndex();
             if (offset == 0) buf.writeVarInt(len);
             buf.writeBytes(packet, thisLen);
-            if (!ClientPluginChannels.sendMessage(channel, buf, policy)) {
-                packet.release();
-                return false;
-            }
+            ClientPlayNetworking.send(channel, buf);
         }
         packet.release();
         return true;

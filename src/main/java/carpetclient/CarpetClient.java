@@ -8,11 +8,10 @@ import carpetclient.coders.EDDxample.VillageMarker;
 import carpetclient.gui.chunkgrid.Controller;
 import carpetclient.gui.chunkgrid.GuiChunkGrid;
 import carpetclient.random.RandomtickDisplay;
-import com.mumfrey.liteloader.*;
 import carpetclient.pluginchannel.CarpetPluginChannel;
 import carpetclient.rules.CarpetRules;
-import com.mumfrey.liteloader.modconfig.ConfigPanel;
 import net.ornithemc.osl.entrypoints.api.client.ClientModInitializer;
+import net.ornithemc.osl.lifecycle.api.client.MinecraftClientEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.Window;
 import net.minecraft.network.PacketByteBuf;
@@ -23,28 +22,20 @@ public class CarpetClient implements ClientModInitializer {
     private boolean loggedOut = false;
 
     @Override
-    public String getVersion() {
-        return "@VERSION@";
+    public void initClient() {
+        CarpetPluginChannel.init();
+        Config.load();
+        GuiChunkGrid.instance = new GuiChunkGrid();
+        Hotkeys.init();
+
+        MinecraftClientEvents.TICK_END.register(this::onTick);
     }
 
-	@Override
-	public void initClient() {
-		Config.load();
-		GuiChunkGrid.instance = new GuiChunkGrid();
-		Hotkeys.init();
-	}
-
-    @Override
-    public String getName() {
-        return "Carpet Client";
-    }
-
-    @Override
-    public void onTick(Minecraft minecraft, float partialTicks, boolean inGame, boolean clock) {
+    private void onTick(Minecraft minecraft) {
         gameRunnin = minecraft.isIntegratedServerRunning() || minecraft.getCurrentServerEntry() != null;
 
         if (gameRunnin) {
-            Hotkeys.onTick(minecraft, partialTicks, inGame, clock);
+            Hotkeys.onTick(minecraft);
             Controller.tick();
             loggedOut = true;
         } else if (loggedOut) {
@@ -55,18 +46,6 @@ public class CarpetClient implements ClientModInitializer {
             ShowBoundingBoxes.clear();
             GuiChunkGrid.instance = new GuiChunkGrid();
         }
-    }
-
-    // Needed method for plugin channels. Data from the server.
-    @Override
-    public void onCustomPayload(String channel, PacketByteBuf data) {
-        CarpetPluginChannel.packatReceiver(channel, data);
-    }
-
-    // Needed method for plugin channels. Adds the list of channels that the client will listen for.
-    @Override
-    public List<String> getChannels() {
-        return CarpetPluginChannel.CARPET_PLUGIN_CHANNEL;
     }
 
     @Override
