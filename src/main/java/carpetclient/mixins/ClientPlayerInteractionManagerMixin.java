@@ -3,7 +3,6 @@ package carpetclient.mixins;
 import carpetclient.Config;
 import carpetclient.Hotkeys;
 import carpetclient.coders.skyrising.PacketSplitter;
-import com.mumfrey.liteloader.core.PluginChannels;
 import io.netty.buffer.Unpooled;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.client.ClientPlayerInteractionManager;
@@ -234,7 +233,7 @@ public class ClientPlayerInteractionManagerMixin {
         data.writeBoolean(instaMine);
         data.writeBoolean(Config.carefulBreak.getValue());
 
-        PacketSplitter.send("carpet:mine", data, PluginChannels.ChannelPolicy.DISPATCH_ALWAYS);
+        PacketSplitter.send("carpet:mine", data, true);
     }
 
     /**
@@ -257,7 +256,7 @@ public class ClientPlayerInteractionManagerMixin {
         data.writeBoolean(true);
         data.writeBoolean(Config.carefulBreak.getValue());
 
-        PacketSplitter.send("carpet:mine", data, PluginChannels.ChannelPolicy.DISPATCH_ALWAYS);
+        PacketSplitter.send("carpet:mine", data, true);
     }
 
 }

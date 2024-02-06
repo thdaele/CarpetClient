@@ -83,6 +83,6 @@ public class CarpetPluginChannel {
      * @param data The data that is being sent to the server.
      */
     public static void packatSender(PacketByteBuf data) {
-        PacketSplitter.send(CARPET_CHANNEL_NAME, data);
+        PacketSplitter.send(CARPET_CHANNEL_NAME, data, false);
     }
 }

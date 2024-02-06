@@ -18,7 +18,7 @@ public class PacketSplitter {
 
     private static final Map<String, ReadingSession> readingSessions = new HashMap<>();
 
-    public static boolean send(String channel, PacketByteBuf packet) {
+    public static boolean send(String channel, PacketByteBuf packet, boolean always) {
         int len = packet.writerIndex();
         packet.resetReaderIndex();
         for (int offset = 0; offset < len; offset += MAX_PAYLOAD_PER_PACKET) {
@@ -27,7 +27,11 @@ public class PacketSplitter {
             buf.resetWriterIndex();
             if (offset == 0) buf.writeVarInt(len);
             buf.writeBytes(packet, thisLen);
-            ClientPlayNetworking.send(channel, buf);
+            if (always) {
+                ClientPlayNetworking.doSend(channel, buf);
+            } else {
+                ClientPlayNetworking.send(channel, buf);
+            }
         }
         packet.release();
         return true;

@@ -7,12 +7,11 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.Map;
 import net.minecraft.util.CrudeIncrementalIntIdentityHashMap;
-import net.minecraft.util.IdObjectIterable;
 import net.minecraft.util.registry.IdRegistry;
 import net.minecraft.util.registry.MappedRegistry;
 
 @Mixin(IdRegistry.class)
-public class IdRegistryMixin<K, V> extends MappedRegistry<K, V> implements IdObjectIterable<V>, AMixinRegistryNamespaced {
+public class IdRegistryMixin<K, V> extends MappedRegistry<K, V> implements AMixinRegistryNamespaced {
 
     @Shadow
     @Final
