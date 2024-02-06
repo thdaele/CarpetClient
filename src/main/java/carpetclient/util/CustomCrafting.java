@@ -45,7 +45,7 @@ public class CustomCrafting {
         NbtCompound nbt;
         try {
             nbt = data.readNbtCompound();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return;
         }
@@ -125,7 +125,7 @@ public class CustomCrafting {
 
         Table<CreativeModeTab, String, RecipeCollection> table = HashBasedTable.<CreativeModeTab, String, RecipeCollection>create();
 
-        for (Recipe irecipe : CraftingManager.REGISTRY) {
+        for (Recipe irecipe : (Iterable<Recipe>) CraftingManager.REGISTRY) {
             if (!irecipe.isSpecial()) {
                 CreativeModeTab creativetabs = IClientRecipeBook.callGetTab(irecipe.getResult());
                 String s = irecipe.getGroup();
