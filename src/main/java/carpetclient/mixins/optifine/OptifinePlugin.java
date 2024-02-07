@@ -1,5 +1,6 @@
 package carpetclient.mixins.optifine;
 
+import carpetclient.CarpetClient;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -11,7 +12,6 @@ import java.util.List;
 import java.util.Set;
 
 public class OptifinePlugin implements IMixinConfigPlugin {
-    Logger LOGGER = LogManager.getLogger("LiteLoader");
 
     @Override
     public void onLoad(String mixinPackage) {
@@ -27,10 +27,10 @@ public class OptifinePlugin implements IMixinConfigPlugin {
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         try {
             Class.forName("optifine.OptiFineForgeTweaker");
-            LOGGER.info("optifine detected");
+            CarpetClient.LOGGER.info("Optifine detected");
             return true;
         } catch (ClassNotFoundException e) {
-            LOGGER.info("optifine not detected");
+			CarpetClient.LOGGER.info("Optifine not detected");
             return false;
         }
     }

@@ -13,12 +13,10 @@ import net.minecraft.util.registry.MappedRegistry;
 @Mixin(IdRegistry.class)
 public class IdRegistryMixin<K, V> extends MappedRegistry<K, V> implements AMixinRegistryNamespaced {
 
-    @Shadow
-    @Final
-    protected CrudeIncrementalIntIdentityHashMap<V> ids = new CrudeIncrementalIntIdentityHashMap<V>(256);
+    @Shadow @Final
+    protected final CrudeIncrementalIntIdentityHashMap<V> ids = new CrudeIncrementalIntIdentityHashMap<V>(256);
 
-    @Shadow
-    @Final
+    @Shadow @Final
     protected Map<V, K> keys;
 
     public void carpetClient$clear() {

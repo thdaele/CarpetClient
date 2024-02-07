@@ -77,7 +77,7 @@ public abstract class LocalClientPlayerEntityMixin extends ClientPlayerEntity {
      */
     @SuppressWarnings("OverwriteAuthorRequired")
     @Overwrite
-    protected boolean pushAwayFrom(double x, double y, double z) {
+    public boolean pushAwayFrom(double x, double y, double z) {
         if (this.noClip) {
             return false;
         } else {

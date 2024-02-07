@@ -15,11 +15,15 @@ import net.ornithemc.osl.lifecycle.api.client.MinecraftClientEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.Window;
 import net.minecraft.network.PacketByteBuf;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class CarpetClient implements ClientModInitializer {
 
     private static boolean gameRunnin = false;
     private static boolean loggedOut = false;
+
+	public static Logger LOGGER = LogManager.getLogger("CarpetClient");
 
     @Override
     public void initClient() {
