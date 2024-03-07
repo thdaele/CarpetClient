@@ -1,15 +1,16 @@
 {
 	"schemaVersion": 1,
-	"id": "example_mod",
+	"id": "carpet_client",
 	"version": "${version}",
-	"name": "Example mod",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"name": "CarpetClient",
+	"description": "This is a client side support to Carpet server for Minecraft version 1.12.2.\nThis mod is intended for the use of only when connected to a Carpet server in multiplayer.",
 	"authors": [
-		"Me!"
+		"Carpet dev team",
+    "dragonbabyfly"
 	],
 	"contact": {
-		"homepage": "https://example.com/",
-		"sources": "https://github.com/OrnitheMC/ornithe-template-mod"
+		"homepage": "https://github.com/thdaele/CarpetClient",
+		"sources": "https://github.com/thdaele/CarpetClient"
 	},
 	"license": "Minecraft Mod Public License",
 	"icon": "assets/example_mod/icon.png",
