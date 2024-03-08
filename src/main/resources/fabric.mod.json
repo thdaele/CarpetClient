@@ -16,9 +16,10 @@
 	"icon": "assets/example_mod/icon.png",
   "environment": "client",
 	"entrypoints": {
-		"init": [
-		]
-	},
+    "client-init": [
+      "carpetclient.CarpetClient"
+    ]
+  },
 	"mixins": [
     "mixins.carpetclient.json",
     "mixins.carpetclient.optifinecompat.json"
